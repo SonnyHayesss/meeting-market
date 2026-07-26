@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  username     String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  bookings     Booking[]
+  notifications Notification[]
+}
+
+model Booking {
+  id          Int           @id @default(autoincrement())
+  date        String
+  startTime   String
+  endTime     String
+  place       String
+  customPlace String?
+  username    String
+  displayName String
+  status      BookingStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  userId      Int?
+  user        User?         @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        Int                  @id @default(autoincrement())
+  title     String
+  message   String
+  audience  NotificationAudience @default(USER)
+  userId    Int?
+  bookingId Int?
+  createdAt DateTime             @default(now())
+  user      User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum BookingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum NotificationAudience {
+  ADMIN
+  USER
+}

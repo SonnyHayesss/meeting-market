@@ -1,0 +1,17 @@
+{
+  "name": "meeting-market",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "npm run db:prepare -w server && concurrently -n server,client -c blue,green \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w client && npm run build -w server",
+    "db:prepare": "npm run db:prepare -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
