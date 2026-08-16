@@ -1,2 +1,10 @@
-node_modules
-.env
+node_modules/
+client/dist/
+server/dist/
+server/prisma/dev.db
+server/.env
+*.tsbuildinfo
+.DS_Store
+.vite/
+.vercel
+.env*
